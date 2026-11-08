@@ -4,140 +4,380 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyril Nyarko Tawiah — Designer · 3D Visualizer · Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0d0e12; --card:#16181f; --card2:#1c1f28; --text:#e9e6dd; --muted:#9a97a0;
-    --gold:#f0b429; --gold2:#ffd166; --green:#3d9970; --red:#c1443c; --border:#262a35;
+    --bg:#070810; --ink:#eef0ff; --muted:#9aa0b8;
+    --vio:#8b5cf6; --cyan:#22d3ee; --gold:#f0b429; --pink:#f472b6; --green:#4ade80;
+    --glass:rgba(255,255,255,.06); --glass2:rgba(255,255,255,.1);
+    --stroke:rgba(255,255,255,.14); --stroke2:rgba(255,255,255,.28);
+    --r:20px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.6}
-  .wrap{max-width:960px;margin:0 auto;padding:48px 28px 64px}
-  a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
-  /* HERO */
-  .hero{text-align:center;padding:36px 12px 44px;border-bottom:1px solid var(--border);margin-bottom:44px}
-  .flag{display:inline-flex;height:5px;width:120px;border-radius:3px;overflow:hidden;margin-bottom:22px}
-  .flag span{flex:1}
-  .hero h1{font-size:44px;letter-spacing:1px;font-weight:800}
-  .hero h1 em{font-style:normal;color:var(--gold)}
-  .tag{font-size:17px;color:var(--muted);margin-top:10px}
-  .quote{font-size:15px;color:var(--gold2);font-style:italic;margin-top:16px}
-  .chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
-  .chip{background:var(--card);border:1px solid var(--border);border-radius:999px;padding:7px 16px;font-size:13px;color:var(--text)}
-  .chip b{color:var(--gold);font-weight:600}
-  /* SECTIONS */
-  h2.sec{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
-  .sub{color:var(--muted);font-size:15px;margin-bottom:26px}
-  /* CRAFTS */
-  .crafts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:8px 0 52px}
-  .craft{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 18px}
-  .craft .n{font-size:26px}
-  .craft h3{font-size:16px;margin:8px 0 6px;color:var(--text)}
-  .craft p{font-size:13.5px;color:var(--muted)}
-  /* WORK GRID */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:52px}
-  .tile{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
-  .tile img{width:100%;height:150px;object-fit:cover;display:block;background:var(--card2)}
-  .tile .pad{padding:13px 15px 15px}
-  .tile .k{font-size:10.5px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase}
-  .tile h4{font-size:14.5px;margin:4px 0 5px;font-weight:600}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.65;overflow-x:hidden}
+  ::selection{background:var(--vio);color:#fff}
+
+  /* ===== AURORA BACKGROUND ===== */
+  .sky{position:fixed;inset:0;z-index:-2;background:
+    radial-gradient(1200px 700px at 15% -10%, rgba(139,92,246,.35), transparent 60%),
+    radial-gradient(900px 600px at 110% 15%, rgba(34,211,238,.22), transparent 60%),
+    radial-gradient(1000px 800px at 50% 120%, rgba(240,180,41,.16), transparent 60%),
+    var(--bg);}
+  .orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;z-index:-1;pointer-events:none}
+  .orb.o1{width:420px;height:420px;background:#8b5cf6;top:-120px;left:-100px;animation:drift 26s ease-in-out infinite}
+  .orb.o2{width:360px;height:360px;background:#22d3ee;top:30%;right:-140px;animation:drift 32s ease-in-out infinite reverse}
+  .orb.o3{width:300px;height:300px;background:#f0b429;bottom:-80px;left:35%;animation:drift 24s ease-in-out 3s infinite}
+  @keyframes drift{
+    0%,100%{transform:translate(0,0) scale(1)}
+    33%{transform:translate(70px,50px) scale(1.12)}
+    66%{transform:translate(-50px,80px) scale(.94)}
+  }
+  .grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E")}
+
+  /* ===== GLASS NAV ===== */
+  nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:50;
+    display:flex;gap:4px;align-items:center;padding:8px 10px;border-radius:999px;
+    background:rgba(13,14,24,.55);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+    border:1px solid var(--stroke);box-shadow:0 8px 32px rgba(0,0,0,.45)}
+  nav a{padding:7px 14px;border-radius:999px;font-size:13.5px;color:var(--muted);text-decoration:none;transition:.25s}
+  nav a:hover{color:var(--ink);background:var(--glass2)}
+  nav .dot{width:8px;height:8px;border-radius:50%;background:var(--green);margin:0 6px 0 8px;box-shadow:0 0 12px var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+
+  /* ===== HERO ===== */
+  header{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+  header::after{content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(420px 420px at var(--mx,50%) var(--my,40%), rgba(139,92,246,.14), transparent 70%)}
+  .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center;padding-top:70px}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);
+    padding:7px 15px;border:1px solid rgba(34,211,238,.35);border-radius:999px;background:rgba(34,211,238,.08)}
+  .kicker i{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
+  h1{font-family:'Sora',sans-serif;font-size:58px;line-height:1.04;font-weight:800;margin:18px 0 6px}
+  .grad{background:linear-gradient(90deg,var(--gold),var(--pink) 45%,var(--cyan));background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:shift 6s ease infinite}
+  @keyframes shift{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+  .hero .tag{font-size:18px;color:var(--muted)}
+  .hero .quote{margin-top:14px;font-size:15px;color:var(--ink);opacity:.85}
+  .hero .quote b{color:var(--gold)}
+  .cta{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+  .btn{position:relative;overflow:hidden;padding:12px 24px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;
+    background:linear-gradient(120deg,var(--gold),#f59e0b);color:#171203;transition:transform .25s,box-shadow .25s;
+    box-shadow:0 6px 24px rgba(240,180,41,.28)}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 10px 34px rgba(240,180,41,.45)}
+  .btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);
+    transform:translateX(-110%);transition:transform .7s}
+  .btn:hover::after{transform:translateX(110%)}
+  .btn.ghost{background:var(--glass);color:var(--ink);border:1px solid var(--stroke);backdrop-filter:blur(14px);box-shadow:none}
+  .btn.ghost:hover{border-color:var(--stroke2);box-shadow:0 8px 28px rgba(139,92,246,.25)}
+
+  /* face avatar */
+  .face{justify-self:center;position:relative;width:250px;height:250px}
+  .ring{position:absolute;inset:0;border-radius:50%;padding:4px;
+    background:conic-gradient(from 0deg,var(--gold),var(--pink),var(--cyan),var(--vio),var(--gold));
+    animation:spin 7s linear infinite}
+  @keyframes spin{to{transform:rotate(1turn)}}
+  .face .glass-in{position:absolute;inset:4px;border-radius:50%;overflow:hidden;
+    background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.03));
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--stroke);
+    display:flex;align-items:center;justify-content:center}
+  .face img{width:100%;height:100%;object-fit:cover}
+  .face .fb{font-family:'Sora';font-size:64px;font-weight:800;
+    background:linear-gradient(135deg,var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .face .badge{position:absolute;bottom:6px;right:6px;padding:6px 13px;border-radius:999px;font-size:11px;color:var(--ink);
+    background:rgba(13,14,24,.65);border:1px solid var(--stroke);backdrop-filter:blur(12px);white-space:nowrap}
+  .face .cap{position:absolute;bottom:-34px;width:100%;text-align:center;font-size:11px;color:var(--muted)}
+  /* floats around avatar */
+  .fchip{position:absolute;padding:8px 13px;border-radius:999px;font-size:12px;font-weight:600;
+    background:rgba(13,14,24,.6);border:1px solid var(--stroke);backdrop-filter:blur(16px);
+    box-shadow:0 8px 30px rgba(0,0,0,.4);animation:floaty 5s ease-in-out infinite}
+  .fchip.c1{top:-6px;left:-58px;color:var(--gold)}
+  .fchip.c2{top:38%;right:-64px;color:var(--cyan);animation-delay:1.2s}
+  .fchip.c3{bottom:-2px;left:-38px;color:var(--pink);animation-delay:2.4s}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+  /* ===== STATS ===== */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:-34px 0 0;position:relative;z-index:2}
+  .stat{padding:18px 16px;text-align:center;border-radius:var(--r);
+    background:var(--glass);border:1px solid var(--stroke);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
+    transition:.3s}
+  .stat:hover{transform:translateY(-4px);border-color:rgba(240,180,41,.45)}
+  .stat .n{font-family:'Sora';font-size:30px;font-weight:800;color:var(--gold)}
+  .stat .l{font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+
+  section{padding:88px 0 0}
+  h2.sec{font-family:'Sora';font-size:30px;font-weight:800;margin-bottom:4px}
+  .hline{width:52px;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--pink));margin:10px 0 10px}
+  .sub{color:var(--muted);font-size:15.5px;margin-bottom:30px}
+  .sub a{color:var(--cyan);text-decoration:none;border-bottom:1px dotted rgba(34,211,238,.5)}
+
+  /* ===== CRAFTS ===== */
+  .crafts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{position:relative;border-radius:var(--r);padding:26px 22px;
+    background:var(--glass);border:1px solid var(--stroke);
+    backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
+    transition:transform .35s cubic-bezier(.2,.9,.3,1.3),border-color .3s,box-shadow .35s;overflow:hidden}
+  .card::before{content:'';position:absolute;inset:0;border-radius:inherit;opacity:0;transition:.4s;
+    background:radial-gradient(220px 160px at var(--tx,50%) var(--ty,0%), rgba(139,92,246,.18), transparent 65%)}
+  .card:hover{transform:translateY(-7px);border-color:rgba(139,92,246,.5);box-shadow:0 18px 46px rgba(139,92,246,.18)}
+  .card:hover::before{opacity:1}
+  .card .n{font-size:30px;filter:drop-shadow(0 4px 14px rgba(139,92,246,.5))}
+  .card h3{font-family:'Sora';font-size:17px;margin:10px 0 7px}
+  .card p{font-size:13.5px;color:var(--muted)}
+  .card .tools{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .pill{font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid var(--stroke);color:var(--muted);background:rgba(255,255,255,.04)}
+
+  /* ===== WORK GRID ===== */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .tile{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer;
+    background:var(--glass);border:1px solid var(--stroke);
+    backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);
+    transition:transform .35s cubic-bezier(.2,.9,.3,1.3),border-color .3s,box-shadow .35s;display:block;text-decoration:none}
+  .tile:hover{transform:translateY(-7px) scale(1.015);border-color:rgba(240,180,41,.55);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .tile img{width:100%;height:170px;object-fit:cover;transition:transform .6s ease;filter:saturate(1.05)}
+  .tile:hover img{transform:scale(1.08)}
+  .tile .pad{padding:15px 17px 17px}
+  .tile .k{font-size:10.5px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;font-weight:700}
+  .tile h4{font-size:15px;margin:5px 0 5px;font-weight:600}
   .tile p{font-size:12.5px;color:var(--muted)}
-  .tile .lnk{font-size:12px;color:var(--gold);margin-top:8px;display:inline-block}
-  /* APPS */
-  .banner{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-left:4px solid var(--green);border-radius:14px;padding:22px 24px;margin-bottom:52px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-  .banner .bn{font-size:30px}
-  .banner h3{font-size:16px}
-  .banner p{font-size:13.5px;color:var(--muted);margin-top:4px}
-  /* TIMELINE */
-  .tl{border-left:2px solid var(--border);margin:8px 0 52px 6px;padding-left:22px}
-  .ti{position:relative;margin-bottom:16px}
-  .ti::before{content:'';position:absolute;left:-28px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--gold)}
-  .ti .d{font-size:11.5px;letter-spacing:1px;color:var(--gold);font-weight:700}
-  .ti h4{font-size:14.5px;font-weight:600;margin:2px 0}
+  .tile .go{margin-top:10px;font-size:12.5px;color:var(--cyan);opacity:0;transform:translateX(-6px);transition:.3s;display:inline-block}
+  .tile:hover .go{opacity:1;transform:none}
+
+  /* ===== DUO BANNER ===== */
+  .banner{position:relative;overflow:hidden;display:flex;gap:20px;align-items:center;flex-wrap:wrap;
+    padding:26px 28px;border-radius:var(--r);margin-top:18px;
+    background:linear-gradient(120deg,rgba(139,92,246,.16),rgba(34,211,238,.1) 55%,rgba(240,180,41,.12));
+    border:1px solid rgba(139,92,246,.35)}
+  .banner::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:var(--vio);filter:blur(80px);opacity:.4;top:-70px;right:-40px;animation:drift 18s infinite}
+  .banner .bn{font-size:34px}
+  .banner h3{font-family:'Sora';font-size:18px}
+  .banner p{font-size:13.5px;color:var(--muted);margin-top:4px;position:relative}
+  .banner b{color:var(--gold2)}
+  .banner .cta2{margin-left:auto;position:relative}
+
+  /* ===== TIMELINE ===== */
+  .tl{border-left:2px solid rgba(139,92,246,.4);margin-left:8px;padding-left:26px}
+  .ti{position:relative;margin-bottom:20px}
+  .ti::before{content:'';position:absolute;left:-34px;top:6px;width:12px;height:12px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),var(--pink));box-shadow:0 0 0 4px rgba(139,92,246,.25),0 0 16px rgba(240,180,41,.6)}
+  .ti .d{font-size:11.5px;letter-spacing:2px;color:var(--gold);font-weight:700}
+  .ti h4{font-size:15.5px;font-weight:600;margin:3px 0}
   .ti p{font-size:13px;color:var(--muted)}
-  /* CONTACT */
-  .contact{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:26px 28px;text-align:center}
-  .contact h3{font-size:17px}
-  .contact p{font-size:13.5px;color:var(--muted);margin-top:6px}
-  .contact .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-  .btn{background:var(--gold);color:#141310;font-weight:700;border-radius:999px;padding:9px 20px;font-size:13.5px}
-  .btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
-  footer{margin-top:34px;text-align:center;font-size:12px;color:var(--muted)}
-  @media(max-width:760px){.crafts,.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:32px}}
-  @media(max-width:480px){.crafts,.grid{grid-template-columns:1fr}}
+
+  /* ===== CONTACT ===== */
+  .contact{text-align:center;padding:34px 30px;border-radius:26px;
+    background:var(--glass);border:1px solid var(--stroke);
+    backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+    box-shadow:0 24px 70px rgba(0,0,0,.45)}
+  .contact h3{font-family:'Sora';font-size:21px}
+  .contact .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+  footer{text-align:center;font-size:12.5px;color:var(--muted);padding:38px 0 26px}
+  footer .flagbar{display:inline-flex;height:4px;width:90px;border-radius:2px;overflow:hidden;margin-bottom:10px}
+  footer .flagbar span{flex:1}
+
+  /* ===== REVEAL ===== */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+
+  /* tools marquee */
+  .marquee{overflow:hidden;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);margin:70px 0 0;padding:14px 0}
+  .mtrack{display:flex;gap:44px;width:max-content;animation:slide 26s linear infinite}
+  .mtrack span{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--muted);white-space:nowrap}
+  .mtrack b{color:var(--ink);font-weight:600}
+  .mtrack .sq{width:7px;height:7px;background:var(--gold);border-radius:2px;box-shadow:0 0 10px var(--gold)}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  @media(max-width:900px){
+    .hero{grid-template-columns:1fr;padding-top:110px}
+    .face{order:-1;margin-top:40px;width:210px;height:210px}
+    .fchip.c1{left:-20px}.fchip.c2{right:-24px}.fchip.c3{left:-14px}
+    h1{font-size:42px}
+    .crafts,.grid,.stats{grid-template-columns:1fr 1fr}
+    nav{display:none}
+    .banner .cta2{margin-left:0}
+  }
+  @media(max-width:560px){.crafts,.grid,.stats{grid-template-columns:1fr}h1{font-size:36px}}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="sky"></div>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+<div class="grain"></div>
 
+<nav>
+  <span class="dot"></span>
+  <a href="#top">Home</a>
+  <a href="#crafts">Crafts</a>
+  <a href="#work">Work</a>
+  <a href="#path">Path</a>
+  <a href="#contact">Hire me</a>
+</nav>
+
+<header id="top" class="wrap">
   <div class="hero">
-    <div class="flag"><span style="background:var(--red)"></span><span style="background:var(--gold)"></span><span style="background:var(--green)"></span></div>
-    <h1 style="line-height:1.15">Cyril Nyarko Tawiah</h1>
-    <div class="tag">Designer · 3D Visualizer · Developer — Accra, Ghana</div>
-    <div class="quote">"I build things people remember."</div>
-    <div class="chips">
-      <div class="chip"><b>CSIR-INSTI</b> · Senior Graphic Designer / Technical Officer</div>
-      <div class="chip"><b>MPhil IS</b> · UPSA</div>
-      <div class="chip"><b>DCDA 2024</b> · "Best of the Best", CSULB, USA</div>
+    <div>
+      <span class="kicker reveal in"><i></i> Available for freelance &amp; full-time</span>
+      <h1 class="reveal in d1">Cyril<br><span class="grad">Nyarko Tawiah</span></h1>
+      <div class="tag reveal in d2">Designer · 3D Visualizer · Developer — Accra, Ghana 🇬🇭</div>
+      <div class="quote reveal in d3">“I build things people <b>remember</b>.”
+        — from brand identity to hyperreal render to working software.</div>
+      <div class="cta reveal in d4">
+        <a class="btn" href="#work">See my work ✦</a>
+        <a class="btn ghost" href="#contact">Hire me</a>
+      </div>
     </div>
-    <div class="chips">
-      <div class="chip"><b>✉</b> cyriltawiah9@gmail.com</div>
-      <div class="chip"><b>☎</b> +233 550 292 767</div>
-      <div class="chip"><b>📍</b> Accra · open to freelance worldwide</div>
+    <div class="face reveal in d2">
+      <div class="ring"></div>
+      <div class="glass-in">
+        <!-- Put your photo at face.jpg next to this file and it replaces the initials automatically -->
+        <img src="face.jpg" alt="Cyril Nyarko Tawiah" onerror="this.remove()">
+        <span class="fb">CT</span>
+      </div>
+      <div class="badge">✨ exhibited in the USA</div>
+      <span class="fchip c1">🎨 Brand identity</span>
+      <span class="fchip c2">🏗️ Lumion renders</span>
+      <span class="fchip c3">💻 Ships apps</span>
+      <div class="cap">[ face image placeholder — drop face.jpg to replace ]</div>
     </div>
   </div>
+</header>
 
-  <h2 class="sec">One desk, three crafts</h2>
-  <div class="sub">My craft started as design and got hungry.</div>
-  <div class="crafts">
-    <div class="craft"><div class="n">🎨</div><h3>Brand &amp; Print</h3><p>Brand identities, guidelines, logos, signage, packaging, book layout — Adobe, CorelDRAW, Figma. THOU ART, Farm Academy, Owusu Aduome, CSIR publications.</p></div>
-    <div class="craft"><div class="n">🏗️</div><h3>3D &amp; Animation</h3><p>SketchUp Pro → Lumion hyperreal renders with day/night light, motion graphics, whiteboard animation, video editing. The craft behind my DCDA 2024 exhibit in California.</p></div>
-    <div class="craft"><div class="n">💻</div><h3>Code</h3><p>Web experiences and games with real backends, Android apps in the works. Currently visualizing and digitizing knowledge through info systems at CSIR — MPhil IS, UPSA.</p></div>
+<div class="wrap">
+  <div class="stats">
+    <div class="stat reveal"><div class="n" data-n="17">0</div><div class="l">Behance projects</div></div>
+    <div class="stat reveal d1"><div class="n" data-n="32">0</div><div class="l">Appreciations</div></div>
+    <div class="stat reveal d2"><div class="n" data-n="4">0</div><div class="l">Countries exhibited</div></div>
+    <div class="stat reveal d3"><div class="n" data-n="2">0</div><div class="l">Shipped products</div></div>
   </div>
-
-  <h2 class="sec">Selected work</h2>
-  <div class="sub">Full 17-project portfolio at <a href="https://www.behance.net/cyriltawiah">behance.net/cyriltawiah</a></div>
-  <div class="grid">
-    <div class="tile"><img src="https://mir-s3-cdn-cf.behance.net/projects/404/6453fb198041377.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Apex Legends Autumn Estates"><div class="pad"><div class="k">3D · exhibited in USA</div><h4>Apex Legends — Autumn Estates Reimagined</h4><p>Shown as a "Best of the Best" exhibit at the DCDA Long Beach International Design Invitation Exhibition, CSULB — representing Ghana.</p><a class="lnk" href="https://www.behance.net/gallery/198041377/">View on Behance →</a></div></div>
-    <div class="tile"><img src="https://mir-s3-cdn-cf.behance.net/projects/404/003308198042179.Y3JvcCw1NTIzLDQzMjAsMTA1Miww.jpg" alt="BlueCrest campus 3d"><div class="pad"><div class="k">3D · institutional feature</div><h4>BlueCrest Campus 3D Visualization</h4><p>Final-year project: the whole campus modeled in SketchUp, rendered in Lumion. Featured on the blog, intranet &amp; YouTube — school-record IG Live.</p></div></div>
-    <div class="tile"><img src="https://mir-s3-cdn-cf.behance.net/projects/404/a90523184091901.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Modern house"><div class="pad"><div class="k">Architecture · most-viewed</div><h4>Modern One-Storey House</h4><p>Open floor-plan concept — my most-viewed Behance project.</p><a class="lnk" href="https://www.behance.net/gallery/184091901/">View on Behance →</a></div></div>
-    <div class="tile"><img src="https://mir-s3-cdn-cf.behance.net/projects/404/b8d05e198045159.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="rooftop bar"><div class="pad"><div class="k">3D · commercial</div><h4>Christiansburg Hotel Rooftop Bar</h4><p>Concept design — Labone, Accra.</p><a class="lnk" href="https://www.behance.net/gallery/198045159/">View on Behance →</a></div></div>
-    <div class="tile"><img src="https://mir-s3-cdn-cf.behance.net/projects/404/ffa1ed208533375.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Farm Academy brand"><div class="pad"><div class="k">Brand identity</div><h4>Farm Academy</h4><p>Logo, identity system and brand guidelines.</p><a class="lnk" href="https://www.behance.net/gallery/208533375/">View on Behance →</a></div></div>
-    <div class="tile"><img src="https://mir-s3-cdn-cf.behance.net/projects/404/74f6a2198038355.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Thou Art brand"><div class="pad"><div class="k">Brand identity</div><h4>THOU ART</h4><p>Full brand identity + guidelines.</p><a class="lnk" href="https://www.behance.net/gallery/198038355/">View on Behance →</a></div></div>
-  </div>
-
-  <div class="banner">
-    <div class="bn">🎮</div>
-    <div style="flex:1;min-width:220px">
-      <h3>Duo Blocks — a shipped two-player game</h3>
-      <p>Play it live at <a href="https://blackchyna.github.io/duo-blocks/">blackchyna.github.io/duo-blocks</a> — built web-first with a real backend. Proof I build, not just draw. <b style="color:var(--gold2)">Mobile apps are the next thing landing in this portfolio.</b></p>
-    </div>
-    <a class="btn" href="https://blackchyna.github.io/duo-blocks/">▶ Play Duo Blocks</a>
-  </div>
-
-  <h2 class="sec">The path</h2>
-  <div class="sub">One desk, three crafts — grown over the years.</div>
-  <div class="tl">
-    <div class="ti"><div class="d">2022 – PRESENT</div><h4>Senior Graphic Designer / Technical Officer — CSIR-INSTI, Accra</h4><p>Brochures, annual reports, banners, social media &amp; branding · 3D visualization and animation · digitization &amp; information-systems projects.</p></div>
-    <div class="ti"><div class="d">2021 – 2022</div><h4>IT Management (National Service) — Ghana Revenue Authority, Head Office</h4><p>Whiteboard animations for ads · software troubleshooting · training teammates on design &amp; animation software.</p></div>
-    <div class="ti"><div class="d">2019 – 2020</div><h4>Architectural Animator &amp; Graphic Designer — Glover Limited · William and Co. · Spring Consult</h4><p>3D renderings and animations for major construction proposals · estate visualization · print &amp; packaging design.</p></div>
-    <div class="ti"><div class="d">2017 – 2021</div><h4>BSc Information Technology — BlueCrest University College</h4><p>Final-year: full 3D visualization of the campus (featured institutionally).</p></div>
-    <div class="ti"><div class="d">2024</div><h4>"Best of the Best" — DCDA Long Beach, California State University, USA</h4><p>Representing Ghana alongside designers from Korea, China, Germany and the USA.</p></div>
-    <div class="ti"><div class="d">CURRENT</div><h4>MPhil, Information Systems — University of Professional Studies, Accra</h4><p>Because design, code and data are one craft, not three.</p></div>
-  </div>
-
-  <div class="contact">
-    <h3>Brand it, render it, animate it — and increasingly, build it.</h3>
-    <p>Whether it's a brand identity, a building that doesn't exist yet, or an app in your pocket — I take an idea from nothing to something people can see, feel and use.</p>
-    <div class="row">
-      <a class="btn" href="mailto:cyriltawiah9@gmail.com">✉ cyriltawiah9@gmail.com</a>
-      <a class="btn ghost" href="https://www.behance.net/cyriltawiah">Behance portfolio</a>
-      <a class="btn ghost" href="https://www.linkedin.com/in/cyril-nyarko-tawiah-229060151">LinkedIn</a>
-      <a class="btn ghost" href="https://github.com/BlackChyna">GitHub</a>
-    </div>
-    <p style="margin-top:14px;font-size:12px">Accra, Ghana · +233 550 292 767 / +233 560 030 144 · freelance clients welcome worldwide</p>
-  </div>
-
-  <footer>Cyril Nyarko Tawiah · Accra, Ghana · built 2026</footer>
 </div>
+
+<div class="marquee">
+  <div class="mtrack">
+    <span><i class="sq"></i><b>Adobe</b> · <b>CorelDRAW</b> · <b>Figma</b> · <b>Google SketchUp</b> · <b>Lumion</b> · <b>Lightroom</b> · <b>Filmora</b> · <b>Web dev</b> · <b>Android</b> · <b>Supabase</b> ·</span>
+    <span><i class="sq"></i><b>Adobe</b> · <b>CorelDRAW</b> · <b>Figma</b> · <b>Google SketchUp</b> · <b>Lumion</b> · <b>Lightroom</b> · <b>Filmora</b> · <b>Web dev</b> · <b>Android</b> · <b>Supabase</b> ·</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <section id="crafts">
+    <h2 class="sec reveal">One desk, three crafts</h2>
+    <div class="hline reveal"></div>
+    <div class="sub reveal">My craft started as design and got hungry.</div>
+    <div class="crafts">
+      <div class="card reveal"><div class="n">🎨</div><h3>Brand &amp; Print Design</h3><p>Brand identities, guidelines, logos, signage, packaging, book &amp; publication layout — built to make people remember you.</p>
+        <div class="tools"><span class="pill">Adobe</span><span class="pill">CorelDRAW</span><span class="pill">Figma</span></div></div>
+      <div class="card reveal d1"><div class="n">🏗️</div><h3>3D &amp; Animation</h3><p>SketchUp modeling → Lumion hyperreal renders with day/night light · motion graphics · whiteboard animation · video editing.</p>
+        <div class="tools"><span class="pill">SketchUp Pro</span><span class="pill">Lumion 10</span><span class="pill">Lightroom</span><span class="pill">Filmora</span></div></div>
+      <div class="card reveal d2"><div class="n">💻</div><h3>Code &amp; Info Systems</h3><p>Web experiences and games with real backends, Android apps — plus the digitization of knowledge at Ghana's CSIR-INSTI.</p>
+        <div class="tools"><span class="pill">Web dev</span><span class="pill">Android</span><span class="pill">Supabase</span></div></div>
+    </div>
+  </section>
+
+  <section id="work">
+    <h2 class="sec reveal">Selected work</h2>
+    <div class="hline reveal"></div>
+    <div class="sub reveal">Full 17-project portfolio at <a href="https://www.behance.net/cyriltawiah">behance.net/cyriltawiah</a></div>
+    <div class="grid">
+      <a class="tile reveal" href="https://www.behance.net/gallery/198041377/">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/6453fb198041377.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Apex Legends Autumn Estates">
+        <div class="pad"><div class="k">3D · exhibited in the USA</div><h4>Apex Legends — Autumn Estates Reimagined</h4>
+        <p>"Best of the Best" at DCDA Long Beach 2024 — representing Ghana.</p><span class="go">View on Behance →</span></div></a>
+      <a class="tile reveal d1" href="https://www.behance.net/gallery/184091901/">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/a90523184091901.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Modern house">
+        <div class="pad"><div class="k">Architecture · most-viewed</div><h4>Modern One-Storey House</h4>
+        <p>Open floor-plan concept — my most-viewed Behance project.</p><span class="go">View on Behance →</span></div></a>
+      <a class="tile reveal d2" href="https://www.behance.net/gallery/198045159/">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/b8d05e198045159.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Rooftop bar">
+        <div class="pad"><div class="k">3D · commercial</div><h4>Christiansburg Hotel Rooftop Bar</h4>
+        <p>Concept design — Labone, Accra.</p><span class="go">View on Behance →</span></div></a>
+      <a class="tile reveal d3" href="https://www.behance.net/gallery/208533375/">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/ffa1ed208533375.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Farm Academy brand">
+        <div class="pad"><div class="k">Brand identity</div><h4>Farm Academy</h4>
+        <p>Logo, identity system and brand guidelines.</p><span class="go">View on Behance →</span></div></a>
+      <a class="tile reveal d4" href="https://www.behance.net/gallery/198038355/">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/74f6a2198038355.Y3JvcCwzMzY3LDI2MzMsMCww.png" alt="Thou Art brand">
+        <div class="pad"><div class="k">Brand identity</div><h4>THOU ART</h4>
+        <p>Full brand identity + guidelines.</p><span class="go">View on Behance →</span></div></a>
+      <a class="tile reveal d5" href="https://www.youtube.com/watch?v=iyi_-ffGGCY">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/003308198042179.Y3JvcCw1NTIzLDQzMjAsMTA1Miww.jpg" alt="BlueCrest campus 3d">
+        <div class="pad"><div class="k">3D · institutional feature</div><h4>BlueCrest Campus 3D Visualization</h4>
+        <p>Final-year project — featured on the blog, intranet &amp; YouTube.</p><span class="go">Watch the video →</span></div></a>
+    </div>
+
+    <div class="banner reveal">
+      <div class="bn">🎮</div>
+      <div style="flex:1;min-width:240px"><h3>Duo Blocks — a shipped two-player game</h3>
+        <p>Live at blackchyna.github.io/duo-blocks — real backend (Supabase). <b>Proof I build, not just draw.</b> Mobile apps land here next.</p></div>
+      <a class="btn cta2" href="https://blackchyna.github.io/duo-blocks/">▶ Play Duo Blocks</a>
+    </div>
+  </section>
+
+  <section id="path">
+    <h2 class="sec reveal">The path</h2>
+    <div class="hline reveal"></div>
+    <div class="sub reveal">One desk, three crafts — grown over the years.</div>
+    <div class="tl">
+      <div class="ti reveal"><div class="d">2022 – PRESENT</div><h4>Senior Graphic Designer / Technical Officer — CSIR-INSTI, Accra</h4>
+        <p>Brochures, annual reports, banners, social media &amp; branding · 3D visualization &amp; animation · digitization &amp; information-systems projects.</p></div>
+      <div class="ti reveal"><div class="d">2021 – 2022</div><h4>IT Management (National Service) — Ghana Revenue Authority</h4>
+        <p>Whiteboard animations for ads · software troubleshooting · training teammates on design &amp; animation software.</p></div>
+      <div class="ti reveal"><div class="d">2019 – 2020</div><h4>Architectural Animator &amp; Graphic Designer — Glover Ltd · William and Co. · Spring Consult</h4>
+        <p>3D renderings &amp; animations for major construction proposals · estate visualization · print &amp; packaging design.</p></div>
+      <div class="ti reveal"><div class="d">2017 – 2021</div><h4>BSc Information Technology — BlueCrest University College</h4>
+        <p>Final-year: full 3D visualization of the campus (featured institutionally).</p></div>
+      <div class="ti reveal"><div class="d">2024</div><h4>"Best of the Best" — DCDA Long Beach, California State University 🇺🇸</h4>
+        <p>Representing Ghana alongside designers from Korea, China, Germany and the USA.</p></div>
+      <div class="ti reveal"><div class="d">CURRENT</div><h4>MPhil, Information Systems — UPSA, Accra</h4>
+        <p>Because design, code and data are one craft, not three.</p></div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding-bottom:10px">
+    <div class="contact reveal">
+      <h3>Brand it. Render it. Animate it. <span style="color:var(--gold)">And increasingly, build it.</span></h3>
+      <p style="color:var(--muted);font-size:14.5px;margin-top:8px">Whether it's a brand identity, a building that doesn't exist yet, or an app in your pocket — I take an idea from nothing to something people can see, feel and use.</p>
+      <div class="row">
+        <a class="btn" href="mailto:cyriltawiah9@gmail.com">✉ cyriltawiah9@gmail.com</a>
+        <a class="btn ghost" href="https://www.behance.net/cyriltawiah">Behance</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/cyril-nyarko-tawiah-229060151">LinkedIn</a>
+        <a class="btn ghost" href="https://github.com/BlackChyna">GitHub</a>
+      </div>
+      <p style="margin-top:16px;font-size:12.5px;color:var(--muted)">Accra, Ghana · +233 550 292 767 / +233 560 030 144 · freelance clients welcome worldwide</p>
+    </div>
+    <footer>
+      <div class="flagbar"><span style="background:#c1443c"></span><span style="background:#f0b429"></span><span style="background:#3d9970"></span></div>
+      <div>Cyril Nyarko Tawiah · Accra, Ghana · built with ❤ · 2026</div>
+    </footer>
+  </section>
+</div>
+
+<script>
+  // reveal on scroll
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
+  // counters
+  const cio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;cio.unobserve(e.target);
+    const el=e.target,t=+el.dataset.n,s=performance.now();
+    const step=n=>{const p=Math.min((n-s)/1200,1);el.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};
+    requestAnimationFrame(step);
+  }),{threshold:.6});
+  document.querySelectorAll('.stat .n').forEach(el=>cio.observe(el));
+  // hero cursor glow
+  const h=document.querySelector('header');
+  h.addEventListener('mousemove',e=>{const r=h.getBoundingClientRect();
+    h.style.setProperty('--mx',(e.clientX-r.left)/r.width*100+'%');
+    h.style.setProperty('--my',(e.clientY-r.top)/r.height*100+'%');});
+  // card sheen follows cursor
+  document.querySelectorAll('.card').forEach(c=>c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    c.style.setProperty('--tx',(e.clientX-r.left)/r.width*100+'%');
+    c.style.setProperty('--ty',(e.clientY-r.top)/r.height*100+'%');}));
+</script>
 </body>
 </html>
