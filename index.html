@@ -438,17 +438,19 @@
     }
     function drawWord(word,alpha,off){
       tctx.clearRect(0,0,W,H);
+      tctx.globalCompositeOperation='source-over';
+      drawTmpMosaic(off);
+      // punch the glyphs out of the mosaic: dest = mosaic ∩ glyph
+      tctx.globalCompositeOperation='destination-in';
       tctx.font="900 100px Sora, Arial";
       let sz=Math.min(W*0.92/Math.max(tctx.measureText(word).width,1)*100, H*0.42);
       tctx.font="900 "+sz+"px Sora, Arial";
       tctx.textAlign='center';tctx.textBaseline='middle';
-      tctx.fillStyle='#fff';tctx.fillText(word,W/2,H*0.52);
-      tctx.globalCompositeOperation='source-in';
-      drawTmpMosaic(off);
+      tctx.fillStyle='#fff';
+      tctx.fillText(word,W/2,H*0.52);
       tctx.globalCompositeOperation='source-over';
       ctx.globalAlpha=alpha;
       ctx.drawImage(tmp,0,0);
-      ctx.strokeText?0:0;
       ctx.font=tctx.font;ctx.textAlign='center';ctx.textBaseline='middle';
       ctx.lineWidth=Math.max(1.5,sz*0.012);
       ctx.strokeStyle='rgba(240,180,41,'+(0.5*alpha)+')';
